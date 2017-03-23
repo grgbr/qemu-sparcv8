@@ -224,7 +224,11 @@ enum {
 #define PG_CACHE_MASK    (1 << PG_CACHE_BIT)
 
 /* 3 <= NWINDOWS <= 32. */
+#ifdef TARGET_SPARC64
 #define MIN_NWINDOWS 3
+#else
+#define MIN_NWINDOWS 2
+#endif
 #define MAX_NWINDOWS 32
 
 #if !defined(TARGET_SPARC64)

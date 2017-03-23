@@ -128,13 +128,13 @@ static int cpu_sparc_register(SPARCCPU *cpu, const char *cpu_model)
         return -1;
     }
 
-    env->version = def->iu_version;
-    env->fsr = def->fpu_version;
-    env->nwindows = def->nwindows;
+    env->version = env->def->iu_version;
+    env->fsr = env->def->fpu_version;
+    env->nwindows = env->def->nwindows;
 #if !defined(TARGET_SPARC64)
-    env->mmuregs[0] |= def->mmu_version;
+    env->mmuregs[0] |= env->def->mmu_version;
     cpu_sparc_set_id(env, 0);
-    env->mxccregs[7] |= def->mxcc_version;
+    env->mxccregs[7] |= env->def->mxcc_version;
 #else
     env->mmu_version = def->mmu_version;
     env->maxtl = def->maxtl;
