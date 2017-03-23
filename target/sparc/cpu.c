@@ -104,14 +104,13 @@ static void cpu_sparc_disas_set_info(CPUState *cpu, disassemble_info *info)
 #endif
 }
 
-static void sparc_cpu_parse_features(CPUState *cs, char *features,
-                                     Error **errp);
+static void sparc_cpu_parse_features(CPUState *cs, Error **errp);
 
 static int cpu_sparc_register(SPARCCPU *cpu, const char *cpu_model)
 {
     CPUSPARCState *env = &cpu->env;
     char *s = g_strdup(cpu_model);
-    char *featurestr, *name = strtok(s, ",");
+    char *name = strtok(s, ",");
     sparc_def_t def1, *def = &def1;
     Error *err = NULL;
 
@@ -122,8 +121,7 @@ static int cpu_sparc_register(SPARCCPU *cpu, const char *cpu_model)
 
     env->def = g_memdup(def, sizeof(*def));
 
-    featurestr = strtok(NULL, ",");
-    sparc_cpu_parse_features(CPU(cpu), featurestr, &err);
+    sparc_cpu_parse_features(CPU(cpu), &err);
     g_free(s);
     if (err) {
         error_report_err(err);
@@ -570,8 +568,7 @@ static int cpu_sparc_find_by_name(sparc_def_t *cpu_def, const char *name)
     return 0;
 }
 
-static void sparc_cpu_parse_features(CPUState *cs, char *features,
-                                     Error **errp)
+static void sparc_cpu_parse_features(CPUState *cs, Error **errp)
 {
     SPARCCPU *cpu = SPARC_CPU(cs);
     sparc_def_t *cpu_def = cpu->env.def;
@@ -581,7 +578,7 @@ static void sparc_cpu_parse_features(CPUState *cs, char *features,
     uint64_t iu_version;
     uint32_t fpu_version, mmu_version, nwindows;
 
-    featurestr = features ? strtok(features, ",") : NULL;
+    featurestr = strtok(NULL, ",");
     while (featurestr) {
         char *val;
 
