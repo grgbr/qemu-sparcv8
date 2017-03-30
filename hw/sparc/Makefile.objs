@@ -1,1 +1,1 @@
-obj-y += sun4m.o leon3.o parrot-o3-sleon.o
+obj-y += sun4m.o leon3.o parrot-o3-sleon.o parrot-o3-bleon.o
